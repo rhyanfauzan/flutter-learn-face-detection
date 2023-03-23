@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -17,22 +19,25 @@ class FaceDetectorPainter extends CustomPainter {
     final Paint paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = Colors.red;
+      ..color = Colors.blue;
 
-    for (final Face face in faces) {
+    for (var i = 0; i < faces.length; i++) {
       canvas.drawRect(
         Rect.fromLTRB(
-          translateX(face.boundingBox.left, rotation, size, absoluteImageSize),
-          translateY(face.boundingBox.top, rotation, size, absoluteImageSize),
-          translateX(face.boundingBox.right, rotation, size, absoluteImageSize),
+          translateX(
+              faces[i].boundingBox.left, rotation, size, absoluteImageSize),
           translateY(
-              face.boundingBox.bottom, rotation, size, absoluteImageSize),
+              faces[i].boundingBox.top, rotation, size, absoluteImageSize),
+          translateX(
+              faces[i].boundingBox.right, rotation, size, absoluteImageSize),
+          translateY(
+              faces[i].boundingBox.bottom, rotation, size, absoluteImageSize),
         ),
         paint,
       );
 
       void paintContour(FaceContourType type) {
-        final faceContour = face.contours[type];
+        final faceContour = faces[i].contours[type];
         if (faceContour?.points != null) {
           for (final Point point in faceContour!.points) {
             canvas.drawCircle(
@@ -63,6 +68,13 @@ class FaceDetectorPainter extends CustomPainter {
       paintContour(FaceContourType.noseBottom);
       paintContour(FaceContourType.leftCheek);
       paintContour(FaceContourType.rightCheek);
+      print('print: headEulerAngleX ${faces[i].headEulerAngleX}');
+      print('print: headEulerAngleY ${faces[i].headEulerAngleY}');
+      print('print: headEulerAngleZ ${faces[i].headEulerAngleZ}');
+      print('print: smilingProbability ${faces[i].smilingProbability}');
+      print('print: noseBridge ${FaceContourType.noseBridge}');
+      print('print: boundingBox ${faces[i].boundingBox}');
+      print('print: boundingBox centerLeft ${faces[i].boundingBox.centerLeft}');
     }
   }
 

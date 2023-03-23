@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
@@ -6,6 +8,8 @@ import 'camera_view.dart';
 import 'painters/face_detector_painters.dart';
 
 class FaceDetectorView extends StatefulWidget {
+  const FaceDetectorView({super.key});
+
   @override
   State<FaceDetectorView> createState() => _FaceDetectorViewState();
 }
@@ -57,10 +61,12 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
           inputImage.inputImageData!.size,
           inputImage.inputImageData!.imageRotation);
       _customPaint = CustomPaint(painter: painter);
+      print('faces $faces');
     } else {
       String text = 'Faces found: ${faces.length}\n\n';
       for (final face in faces) {
         text += 'face: ${face.boundingBox}\n\n';
+        print('text $text');
       }
       _text = text;
       // TODO: set _customPaint to draw boundingRect on top of image
